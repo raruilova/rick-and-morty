@@ -1,21 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const Characters = () => {
-    //state 
-    const [character, setCharacter] = useState([]);
+const Characters = ({character, search}) => {
 
-    useEffect(() => {
-        fetch('https://rickandmortyapi.com/api/character')
-        .then(response => response.json())
-        .then(data => setCharacter(data.results))
-    }, [])
+    const filterCharacter = character.filter((ch) => ch.name.toLowerCase().includes(search.toLowerCase())
+    | ch.species.toLowerCase().includes(search.toLowerCase())
+    );
+
     return (
         <div className="container">
             <div className="characters">
                 {
-                    character.map(item => (
+                    filterCharacter.length === 0 ? <p>Sorry, not found</p> :
+                    filterCharacter.map(item => (
                         <div className="box" key={item.id}>
-                            <img src={item.image} alt={item-name} />
+                            <img src={item.image}  />
                             <div className="character">
                                 <h3 className="name">{item.name}</h3>
                                 <p className="specie">{item.species}</p>
